@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require_relative "helper"
 
-class KarTest < Test::Unit::TestCase
+class TestKar < Test::Unit::TestCase
   test "VERSION" do
     assert do
       ::Kar.const_defined?(:VERSION)
