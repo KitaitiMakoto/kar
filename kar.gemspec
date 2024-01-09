@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.description = "Rake utilities such as task to download, DSL to define multiple tasks at onece, etc."
   spec.homepage = "https://gitlab.com/KitaitiMakoto/kar"
   spec.required_ruby_version = ">= 2.6.0"
+  spec.license = "AGPL-3.0-or-later"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
