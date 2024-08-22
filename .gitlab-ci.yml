@@ -2,9 +2,8 @@ default:
   image: ruby:3.3.0
 
   before_script:
-    - gem install bundler -v 2.5.4
-    - bundle install
+    - gem install rake rubygems-tasks test-unit test-unit-notify
 
 example_job:
   script:
-    - bundle exec rake
+    - rake
