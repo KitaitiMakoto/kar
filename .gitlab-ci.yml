@@ -1,5 +1,5 @@
 default:
-  image: ruby:3.3.0
+  image: ruby:3.3
 
   before_script:
     - gem install rake rubygems-tasks test-unit test-unit-notify
