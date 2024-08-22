@@ -3,13 +3,13 @@
 require_relative "helper"
 
 class TestKar < Test::Unit::TestCase
-  test "VERSION" do
-    assert do
-      ::Kar.const_defined?(:VERSION)
+  sub_test_case "DSL" do
+    test "download task" do
+      pend
     end
-  end
 
-  test "something useful" do
-    assert_equal("expected", "actual")
+    test "url task" do
+      pend
+    end
   end
 end
