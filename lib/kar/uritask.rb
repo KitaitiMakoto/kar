@@ -9,6 +9,8 @@ module Kar
   # Instanctiated in {DSL#download}
   class URITask < Rake::TaskLib
     module Util
+      REDIRECT_LIMIT = 3
+
       module_function
 
       # @todo Consider return value type
@@ -18,26 +20,53 @@ module Kar
       # @param headers [Hash<String, Object?>] HTTP headers
       # @return [String] File path content saved, same to +to+
       # @return [nil] if remote file responded with 304 Not Modified
-      def fetch_http(uri, to, headers = {})
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = uri.scheme == "https"
-        http.start do |http|
-          File.open to, "wb" do |file|
-            http.request_get uri, headers do |response|
-              return if response.kind_of? Net::HTTPNotModified
-
-              response.read_body do |chunk|
-                file.write chunk
+      def fetch_http(uri, to, headers = {}, redirected = 0)
+        if redirected > REDIRECT_LIMIT
+          raise "Too many HTTP redirects"
+        end
+        Net::HTTP.start uri.host, uri.port, use_ssl: uri.scheme == "https" do |http|
+          request = Net::HTTP::Get.new(uri, headers)
+          http.request request do |response|
+            case response
+            when Net::HTTPNotModified
+              # noop
+            when Net::HTTPOK
+              File.open to, "wb" do |file|
+                response.read_body do |chunk|
+                  file.write chunk
+                end
+                now = Time.now
+                last_modified = response["last-modified"]
+                mtime = last_modified ? Time.httpdate(last_modified) : now
+                File.utime now, Time.httpdate(response["Last-Modified"]), to
               end
-              begin
-                File.utime Time.now, Time.httpdate(response["Last-Modified"]), to
-              rescue => err
-                warn err
-              end
+            when Net::HTTPRedirection
+              fetch_http URI(response["location"]), to, headers, redirected + 1
+            else
+              raise "#{response.code} #{response.message}\n#{response.body}"
             end
           end
         end
+
         to
+      end
+
+      private
+
+      def fetch_http_with_redirection_handling(uri, headers = {})
+        Net::HTTP.start uri.host, uri.port, use_ssl: uri.scheme == "https" do |http|
+          request = Net::HTTP::Get.new(uri, headers)
+          http.request request do |response|
+            case response
+            when Net::HTTPRedirection
+              return fetch_http_with_redirection_handling(URI(response["location"]), headers)
+            when Net::HTTPOK
+              return response
+            else
+              raise "#{response.code} #{response.message}\n#{response.body}"
+            end
+          end
+        end
       end
     end
 
