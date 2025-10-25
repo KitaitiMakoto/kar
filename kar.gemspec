@@ -1,10 +1,6 @@
-# frozen_string_literal: true
-
-require_relative "lib/kar/version"
-
 Gem::Specification.new do |spec|
   spec.name = "kar"
-  spec.version = Kar::VERSION
+  spec.version = "0.1.2"
   spec.authors = ["Kitaiti Makoto"]
   spec.email = ["KitaitiMakoto@gmail.com"]
 
