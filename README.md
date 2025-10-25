@@ -23,6 +23,7 @@ Usage
     download "local/path/to/file" => "https://example.net/remote/path/to/file"
     FILES = FileList["fileA", "fileB", "fileC"]
     files FILES
+    cargo "my_gem"
 
 Development
 -----------
