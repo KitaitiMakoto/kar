@@ -5,9 +5,7 @@ require "shellwords"
 require "stringio"
 
 module Kar
-  class CargoTask
-    include Rake::DSL
-
+  class CargoTask < Rake::TaskLib
     def initialize(target)
       @target = target
 
