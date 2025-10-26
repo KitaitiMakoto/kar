@@ -56,12 +56,12 @@ module Kar
     #   # Rakefile
     #   cargo "my_gem"
     #
-    #   task build: :cargo
+    #   task build: "cargo:check"
     #
     #   # shell
     #   % rake cargo
     #
-    # Also defines a cargo:validate task which validates version `Cargo.lock`s are up-to-date.
+    # Also defines a cargo:check task which check sources and manifests.
     # It's useful to add them to the dependency of build task and prevent building invalid gem package.
     #
     # Uses {https://docs.ruby-lang.org/en/master/Gem/Ext/CargoBuilder.html Gem::Ext::CargoBuilder} internally unlike {https://oxidize-rb.org/docs/api-reference/rb-sys-gem-config#rbsysextensiontask RbSys::ExtensionTask}

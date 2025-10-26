@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 - Make cargo task to be dependent on Rust source files
+- cargo:validate -> cargo:check
 
 ## [0.1.2] - 2025-10-26
 

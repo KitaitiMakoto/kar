@@ -33,16 +33,15 @@ module Kar
       namespace :cargo do
         task @target => dl_path
 
-        # TODO: Consider the case `target` is "validate"
-        namespace :validate do
+        # TODO: Consider the case `target` is "check"
+        namespace :check do
           task @target => manifest do |t|
-            `cargo metadata --format-version=1 --manifest-path=#{manifest.shellescape} --locked --quiet`
-            fail unless $?.success?
+            sh "cargo", "check", "--manifest-path", manifest.shellescape, "--locked", "--quiet"
           end
         end
 
-        desc "Validate Cargo.lock files"
-        task validate: "cargo:validate:#{@target}"
+        desc "Check Rust sources and manifests"
+        task check: "cargo:check:#{@target}"
       end
 
       desc "Build all extensions in Rust"
