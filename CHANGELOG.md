@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Make cargo task to be dependent on Rust source files
+
 ## [0.1.2] - 2025-10-26
 
 - CargoTask, build extension in Rust
