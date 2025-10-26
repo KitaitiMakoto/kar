@@ -81,7 +81,7 @@ module Kar
     end
 
     def src
-      @src ||= FileList["#{ext_dir}/src/*/*.rs"]
+      @src ||= FileList["#{ext_dir}/src/**/*.rs"]
     end
 
     class Results
