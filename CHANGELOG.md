@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+* Use open-uri for URITask
+
 ## [0.1.3] - 2025-10-26
 
 - Make cargo task to be dependent on Rust source files
