@@ -36,7 +36,7 @@ module Kar
     end
 
     def patch_open_uri
-      require_relative "uri-http-download"
+      require_relative "open-uri-patch"
     end
   end
 end
