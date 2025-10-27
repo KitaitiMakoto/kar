@@ -2,7 +2,7 @@ require "rake/tasklib"
 require "rake/file_task"
 require "uri"
 require "net/https"
-require "tmpdir"
+require "tempfile"
 require "time"
 
 module Kar
@@ -22,21 +22,19 @@ module Kar
       end
 
       file @to do |t|
-        patch_open_uri
+        require "open-uri"
 
         mtime = File.mtime(t.name) if File.file? t.name
-        Dir.mktmpdir do |dir|
-          tempfile = File.join dir, File.basename(t.name)
-          File.open(tempfile, "wb+") do |to|
-            @uri.read to:, request_specific_fields: {"If-Modified-Since" => mtime&.httpdate}
-          end
+        @uri.open request_specific_fields: {"If-Modified-Since" => mtime&.httpdate} do |input|
+          tempfile = Tempfile.open {|output|
+            while chunk = input.read(1024)
+              output.write chunk
+            end
+            output
+          }
           move tempfile, t.name
         end
       end
-    end
-
-    def patch_open_uri
-      require_relative "open-uri-patch"
     end
   end
 end
