@@ -1,9 +1,0 @@
-default:
-  image: ruby:3.4
-
-  before_script:
-    - gem install rake rubygems-tasks test-unit test-unit-notify
-
-example_job:
-  script:
-    - rake
