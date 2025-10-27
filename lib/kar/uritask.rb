@@ -1,7 +1,5 @@
 require "rake/tasklib"
-require "rake/file_task"
 require "uri"
-require "net/https"
 require "tempfile"
 require "time"
 
