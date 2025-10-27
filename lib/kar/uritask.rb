@@ -24,8 +24,7 @@ module Kar
       file @to do |t|
         require "open-uri"
 
-        mtime = File.mtime(t.name) if File.file? t.name
-        @uri.open request_specific_fields: {"If-Modified-Since" => mtime&.httpdate} do |input|
+        @uri.open do |input|
           tempfile = Tempfile.open {|output|
             while chunk = input.read(1024)
               output.write chunk
