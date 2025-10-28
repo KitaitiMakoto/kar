@@ -23,13 +23,17 @@ module Kar
         require "open-uri"
 
         @uri.open do |input|
-          tempfile = Tempfile.open {|output|
-            while chunk = input.read(1024)
-              output.write chunk
+          tempfile =
+            if input.respond_to?(:to_path)
+              input.close
+              input
+            else
+              Tempfile.open {|output|
+                output.write input.read
+                output
+              }
             end
-            output
-          }
-          move tempfile, t.name
+          move tempfile.to_path, t.name
         end
       end
     end
