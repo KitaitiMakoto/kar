@@ -1,4 +1,5 @@
 require "rake/clean"
+require "rake/tasklib"
 require "rubygems/ext"
 require "json"
 require "shellwords"
